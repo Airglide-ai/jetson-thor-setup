@@ -1,0 +1,132 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  html,body{margin:0;background:#ffffff;}
+  svg{display:block;font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;}
+  .t{font-size:30px;font-weight:700;fill:#111827}
+  .st{font-size:18px;fill:#4b5563}
+  .h{font-size:22px;font-weight:700;fill:#111827}
+  .b{font-size:16px;fill:#374151}
+  .s{font-size:14px;fill:#6b7280}
+  .w{font-size:16px;font-weight:600;fill:#ffffff}
+  .n{font-size:17px;font-weight:700;fill:#ffffff}
+  .lbl{font-size:15px;fill:#1f2937}
+</style></head>
+<body>
+<svg width="1600" height="980" viewBox="0 0 1600 980" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#059669"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="980" fill="#ffffff"/>
+  <text x="60" y="64" class="t">Jetson Thor: LUKS-encrypted data, automatic unlock with Tang</text>
+  <text x="60" y="96" class="st">Patched NVIDIA ISO (APP 180 GiB + DATA) · DATA encrypted with LUKS · Clevis unlocks it when the Thor is on your network</text>
+
+  <!-- ================= THOR ================= -->
+  <rect x="60" y="140" width="520" height="560" rx="16" fill="#f9fafb" stroke="#111827" stroke-width="2"/>
+  <text x="84" y="178" class="h">Jetson AGX Thor</text>
+  <text x="84" y="202" class="s">JetPack 7 · installed with iso/patch-thor-iso.sh</text>
+
+  <!-- NVMe -->
+  <rect x="84" y="226" width="472" height="330" rx="12" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="104" y="256" class="b" font-weight="700">NVMe SSD (removable)</text>
+
+  <!-- rootfs -->
+  <rect x="104" y="272" width="432" height="104" rx="10" fill="#e5e7eb" stroke="#9ca3af"/>
+  <text x="124" y="302" class="b" font-weight="700">APP (p1) · 180 GiB</text>
+  <text x="124" y="326" class="b">Not encrypted · Ubuntu + JetPack</text>
+  <text x="124" y="350" class="s">Do not keep private SSH keys, tokens or secrets here</text>
+
+  <!-- LUKS -->
+  <rect x="104" y="392" width="432" height="146" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <!-- lock icon -->
+  <rect x="482" y="420" width="32" height="24" rx="4" fill="#d97706"/>
+  <path d="M488,420 v-8 a10,10 0 0 1 20,0 v8" fill="none" stroke="#d97706" stroke-width="4"/>
+  <text x="124" y="422" class="b" font-weight="700">DATA (p12) · LUKS · rest of the disk</text>
+  <text x="124" y="446" class="b">/data · Docker · containerd · code · sensor data</text>
+  <text x="124" y="474" class="s">Key 1: Clevis + Tang (automatic)</text>
+  <text x="124" y="496" class="s">Key 2: backup passphrase (manual)</text>
+  <text x="124" y="518" class="s">Keep it in a password manager</text>
+
+  <!-- clevis -->
+  <rect x="84" y="576" width="472" height="100" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="104" y="608" class="b" font-weight="700">Clevis (systemd + /etc/crypttab)</text>
+  <text x="104" y="632" class="b">At boot it asks Tang for the key, opens LUKS</text>
+  <text x="104" y="656" class="b">and mounts /data. No passphrase.</text>
+
+  <!-- ================= FIREWALL MOXA ================= -->
+  <rect x="680" y="300" width="300" height="200" rx="16" fill="#f9fafb" stroke="#111827" stroke-width="2"/>
+  <text x="704" y="338" class="h">Moxa firewall</text>
+  <text x="704" y="362" class="s">Local network firewall</text>
+  <rect x="704" y="382" width="252" height="96" rx="10" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="720" y="410" class="lbl" font-weight="700">Firewall rule</text>
+  <text x="720" y="434" class="lbl">Only the Thor can reach</text>
+  <text x="720" y="458" class="lbl">Synology : 7500 (Tang)</text>
+
+  <!-- ================= SYNOLOGY ================= -->
+  <rect x="1080" y="140" width="460" height="560" rx="16" fill="#f9fafb" stroke="#111827" stroke-width="2"/>
+  <text x="1104" y="178" class="h">Synology NAS</text>
+  <text x="1104" y="202" class="s">Always on · ideally in another physical location</text>
+
+  <rect x="1104" y="226" width="412" height="300" rx="12" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="1124" y="256" class="b" font-weight="700">Container Manager (Docker)</text>
+
+  <rect x="1124" y="274" width="372" height="110" rx="10" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+  <text x="1144" y="306" class="b" font-weight="700">Tang container</text>
+  <text x="1144" y="330" class="b">Listens on :7500 (HTTP, LAN only)</text>
+  <text x="1144" y="354" class="s">Does not store your key, only helps rebuild it</text>
+
+  <rect x="1124" y="400" width="372" height="106" rx="10" fill="#ffffff" stroke="#059669" stroke-dasharray="6 4" stroke-width="1.5"/>
+  <text x="1144" y="430" class="b" font-weight="700">Volume /var/db/tang</text>
+  <text x="1144" y="454" class="b">Tang keys (persistent)</text>
+  <text x="1144" y="480" class="s">Back it up: if lost, the passphrase is needed</text>
+
+  <rect x="1104" y="546" width="412" height="130" rx="12" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="1124" y="578" class="b" font-weight="700">Harden DSM</text>
+  <text x="1124" y="604" class="b">· No default admin account, 2FA on</text>
+  <text x="1124" y="628" class="b">· Review QuickConnect and open ports</text>
+  <text x="1124" y="652" class="b">· Never expose Tang to the internet</text>
+
+  <!-- ================= ARROWS ================= -->
+  <!-- request: Thor -> Meraki -> Synology -->
+  <path d="M556,600 C620,600 620,420 678,420" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#ar)"/>
+  <path d="M980,380 C1030,380 1040,320 1122,320" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#ar)"/>
+  <!-- response: Synology -> Meraki -> Thor -->
+  <path d="M1122,350 C1050,350 1040,450 982,450" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arg)"/>
+  <path d="M678,470 C630,470 630,640 558,640" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arg)"/>
+
+  <!-- number badges -->
+  <circle cx="618" cy="500" r="16" fill="#2563eb"/><text x="618" y="506" text-anchor="middle" class="n">2</text>
+  <circle cx="1040" cy="300" r="16" fill="#2563eb"/><text x="1040" y="306" text-anchor="middle" class="n">2</text>
+  <circle cx="1040" cy="470" r="16" fill="#059669"/><text x="1040" y="476" text-anchor="middle" class="n">3</text>
+  <circle cx="634" cy="600" r="16" fill="#059669"/><text x="634" y="606" text-anchor="middle" class="n">3</text>
+
+  <!-- ================= FLOW ================= -->
+  <rect x="60" y="730" width="1480" height="90" rx="14" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="84" y="762" class="h">Every boot (including remote reboots)</text>
+  <circle cx="98" cy="794" r="13" fill="#2563eb"/><text x="98" y="799" text-anchor="middle" class="w">1</text>
+  <text x="120" y="800" class="b">System boots normally</text>
+  <circle cx="370" cy="794" r="13" fill="#2563eb"/><text x="370" y="799" text-anchor="middle" class="w">2</text>
+  <text x="392" y="800" class="b">Clevis contacts Tang over the LAN</text>
+  <circle cx="742" cy="794" r="13" fill="#059669"/><text x="742" y="799" text-anchor="middle" class="w">3</text>
+  <text x="764" y="800" class="b">Tang answers, Clevis rebuilds the key</text>
+  <circle cx="1146" cy="794" r="13" fill="#d97706"/><text x="1146" y="799" text-anchor="middle" class="w">4</text>
+  <text x="1168" y="800" class="b">/data is mounted, Docker starts</text>
+
+  <!-- ================= SCENARIOS ================= -->
+  <rect x="60" y="840" width="720" height="110" rx="14" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="84" y="874" class="h">If Tang is down (Synology off)</text>
+  <text x="84" y="904" class="b">The system still boots; /data and Docker stay stopped.</text>
+  <text x="84" y="928" class="b">SSH in and unlock it with the backup passphrase.</text>
+
+  <rect x="820" y="840" width="720" height="110" rx="14" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="844" y="874" class="h">If the Thor (or just the SSD) is stolen</text>
+  <text x="844" y="904" class="b">Off your network it cannot reach Tang: data stays encrypted.</text>
+  <text x="844" y="928" class="b">Remaining risk: the Thor and the Synology stolen together.</text>
+</svg>
+</body></html>

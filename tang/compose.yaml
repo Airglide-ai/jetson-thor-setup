@@ -1,0 +1,12 @@
+services:
+  tang:
+    build: .
+    image: tang-local:latest
+    container_name: tang
+    restart: unless-stopped
+    ports:
+      # Host port 7500 -> tangd. Allow it only from the Thor (Moxa / Synology firewall).
+      - "7500:8080"
+    volumes:
+      # Tang keys. BACK THIS FOLDER UP: losing it means the Thor needs the backup passphrase.
+      - ./db:/var/db/tang

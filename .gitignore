@@ -1,0 +1,6 @@
+*.iso
+*.img
+tang/db/
+*.ptable.thor.nvme.dynamic
+*.jetsoniso_setup.bash
+.DS_Store
