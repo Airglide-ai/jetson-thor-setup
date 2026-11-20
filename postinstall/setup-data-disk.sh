@@ -133,7 +133,7 @@ if command -v docker >/dev/null; then
 fi
 cat <<EOF
 
-Next: reboot and verify (see README, "Pruebas"):
+Next: reboot and verify (see README, "Tests"):
   1. Normal reboot      -> /data mounted, docker running.
   2. Tang down + reboot -> system boots, /data closed, docker stopped.
      Unlock manually:   sudo cryptsetup open $DEV $NAME && sudo mount -a && sudo systemctl start docker
